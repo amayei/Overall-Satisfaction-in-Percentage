@@ -1,0 +1,108 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "4a76d381-19cb-4980-a932-d3d739a0d326",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Overall Satisfaction Rate (%):\n",
+      "  Age Category     Sex  Satisfaction Rate (%)\n",
+      "0     Under 18    Male              67.883212\n",
+      "1     Under 18  Female              47.934678\n",
+      "2        18-29    Male              60.027285\n",
+      "3        18-29  Female              43.100740\n",
+      "4        30-49    Male              68.560606\n",
+      "5        30-49  Female              70.046620\n",
+      "6          50+    Male              77.651515\n",
+      "7          50+  Female              68.111455\n",
+      "\n",
+      "Satisfaction Rate Across Sex:\n",
+      "        Satisfaction Total  Total  Satisfaction Rate (%)\n",
+      "Sex                                                     \n",
+      "Female               38.42  75.37              50.975189\n",
+      "Male                 16.72  24.64              67.857143\n",
+      "\n",
+      "Satisfaction Rate Across Age Group:\n",
+      "              Satisfaction Total  Total  Satisfaction Rate (%)\n",
+      "Age Category                                                  \n",
+      "18-29                      23.61  51.90              45.491329\n",
+      "30-49                      17.45  25.08              69.577352\n",
+      "50+                         6.30   8.51              74.030552\n",
+      "Under 18                    7.78  14.52              53.581267\n"
+     ]
+    }
+   ],
+   "source": [
+    "import pandas as pd\n",
+    "\n",
+    "# Create the DataFrame\n",
+    "data = {\n",
+    "    \"Age Category\": [\"Under 18\", \"Under 18\", \"18-29\", \"18-29\", \"30-49\", \"30-49\", \"50+\", \"50+\"],\n",
+    "    \"Sex\": [\"Male\", \"Female\", \"Male\", \"Female\", \"Male\", \"Female\", \"Male\", \"Female\"],\n",
+    "    \"Very Dissatisfied\": [0.15, 1.03, 0.59, 2.49, 0.59, 1.47, 0.88, 0],\n",
+    "    \"Dissatisfied\": [0.59, 2.64, 1.61, 6.45, 0.73, 1.47, 0, 0.29],\n",
+    "    \"Neutral\": [0.59, 1.76, 0.73, 16.42, 1.17, 2.2, 0.29, 0.73],\n",
+    "    \"Satisfied\": [0.59, 1.32, 1.32, 8.36, 1.76, 4.69, 1.61, 1.03],\n",
+    "    \"Very Satisfied\": [2.2, 3.67, 3.08, 10.85, 3.67, 7.33, 2.49, 1.17],\n",
+    "    \"Total\": [4.11, 10.41, 7.33, 44.57, 7.92, 17.16, 5.28, 3.23]\n",
+    "}\n",
+    "\n",
+    "df = pd.DataFrame(data)\n",
+    "\n",
+    "# Calculate overall satisfaction rate (%)\n",
+    "df[\"Satisfaction Total\"] = df[\"Satisfied\"] + df[\"Very Satisfied\"]\n",
+    "df[\"Satisfaction Rate (%)\"] = (df[\"Satisfaction Total\"] / df[\"Total\"]) * 100\n",
+    "\n",
+    "# Satisfaction rate across sex\n",
+    "satisfaction_by_sex = df.groupby(\"Sex\")[[\"Satisfaction Total\", \"Total\"]].sum()\n",
+    "satisfaction_by_sex[\"Satisfaction Rate (%)\"] = (satisfaction_by_sex[\"Satisfaction Total\"] / satisfaction_by_sex[\"Total\"]) * 100\n",
+    "\n",
+    "# Satisfaction rate across age group\n",
+    "satisfaction_by_age = df.groupby(\"Age Category\")[[\"Satisfaction Total\", \"Total\"]].sum()\n",
+    "satisfaction_by_age[\"Satisfaction Rate (%)\"] = (satisfaction_by_age[\"Satisfaction Total\"] / satisfaction_by_age[\"Total\"]) * 100\n",
+    "\n",
+    "# Display results\n",
+    "print(\"Overall Satisfaction Rate (%):\")\n",
+    "print(df[[\"Age Category\", \"Sex\", \"Satisfaction Rate (%)\"]])\n",
+    "print(\"\\nSatisfaction Rate Across Sex:\")\n",
+    "print(satisfaction_by_sex)\n",
+    "print(\"\\nSatisfaction Rate Across Age Group:\")\n",
+    "print(satisfaction_by_age)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "3778fe84-aa06-4ca8-b141-83eb1149e68e",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "anaconda-2024.02-py310",
+   "language": "python",
+   "name": "conda-env-anaconda-2024.02-py310-py"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.10.14"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
